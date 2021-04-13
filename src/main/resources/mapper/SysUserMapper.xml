@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongzhou.api.mapper.SysUserMapper">
+    <select id="queryActivityUserList" resultType="com.zhongzhou.api.entity.SysUser">
+        select u.* , au.latitude , au.longitude , au.position_address positionAddress from t_activity_user au
+        LEFT JOIN t_sys_user u
+        on au.user_id = u.id
+        <where>
+            u.delete_flag = 0
+            <if test="realName != null">
+                and u.real_name like CONCAT(CONCAT('%', #{realName}), '%')
+            </if>
+            <if test="activityId != null">
+                and au.activity_id = #{activityId}
+            </if>
+        </where>
+    </select>
+</mapper>
